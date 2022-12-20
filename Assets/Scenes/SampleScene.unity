@@ -1353,6 +1353,7 @@ MonoBehaviour:
   btnStop: {fileID: 1699888619}
   curTime: {fileID: 2068905639}
   Length: {fileID: 942904056}
+  canvasgroup: {fileID: 1511415733}
   speed: 3
 --- !u!1 &862322580
 GameObject:

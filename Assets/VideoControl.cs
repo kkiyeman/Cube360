@@ -19,10 +19,13 @@ public class VideoControl : MonoBehaviour
     public Button btnStop;
     public TMP_Text curTime;
     public TMP_Text Length;
+    public CanvasGroup canvasgroup;
     private bool isRewind = false;
     private bool isFastForwrd = false;
-   
-    
+    private int isFading;
+
+
+
 
     public float speed = 0.2f;
     // Start is called before the first frame update
@@ -143,21 +146,28 @@ public class VideoControl : MonoBehaviour
 
     public void FadeOut()
     {
+        isFading = 0;
         StartCoroutine(FadeOutt());
     }
 
     public void FadeIn()
     {
+        isFading = 0;
         StartCoroutine(FadeInn());
     }
     public IEnumerator FadeOutt()
     {
-        bg.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        for (float i = 1.0f; i >= -0.2f; i -= 0.2f)
+        if(isFading==0)
         {
-            bg.color = new Color(255, 255, 255, i);
-            yield return new WaitForSeconds(0.1f);
+            bg.gameObject.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            for (float i = 1.0f; i >= -0.2f; i -= 0.1f)
+            {
+                canvasgroup.alpha = i;
+                isFading++;
+                yield return new WaitForSeconds(0.02f);
+            }
+
         }
 
         bg.gameObject.SetActive(false);
@@ -166,14 +176,19 @@ public class VideoControl : MonoBehaviour
     }
     public IEnumerator FadeInn()
     {
-        bg.gameObject.SetActive(true);
-       
-        for (float i = 0.0f; i <= 1.2f; i += 0.2f)
-        {
-            bg.color = new Color(255, 255, 255, i);
-            yield return new WaitForSeconds(0.1f);
+        if(isFading==0)
+        {      
+            bg.gameObject.SetActive(true);
+
+            for (float i = 0.0f; i <= 1.2f; i += 0.1f)
+            {
+                canvasgroup.alpha = i;
+                isFading++;
+                yield return new WaitForSeconds(0.02f);
+            }
+            filler.gameObject.SetActive(false);
         }
-        filler.gameObject.SetActive(false);
+     
 
     }
 
